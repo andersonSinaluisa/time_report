@@ -1,0 +1,33 @@
+version: '3'
+services:
+  nestjs-app:
+    build:
+      context: ./timereport_back # Ruta a la carpeta de tu aplicación Nest.js
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql-db
+    volumes:
+      - ./timereport_back:/app
+    environment:
+      DATABASE_URL: mysql://root:root@mysql-db:3306/timereportdb
+    networks:
+      - app-network
+
+  mysql-db:
+    image: mysql:latest
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: timereportdb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  nestjs-app:

@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  first_name String  @default("")
+  last_name  String  @default("")
+  password  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime? 
+  identification String @default("")
+  phone String @default("")
+  address String @default("")
+  city String @default("")
+  state String @default("")
+  country String @default("")
+  zip_code String @default("")
+  role String @default("user")
+  status Boolean @default(true)
+  avatar String @default("")
+  projects Project[]
+  tasks Task[]
+  
+}
+
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  identification String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+  status Int @default(1)
+  user_id Int
+  projects Project[]
+  
+  
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  type String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+  status Int @default(1)
+  user_id Int
+  leader String @default("")
+  type_service String @default("")
+  client_id Int?
+  client Client? @relation(fields: [client_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+  tasks Task[]
+}
+
+
+model Task{
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime?
+  time_start DateTime?
+  time_end DateTime?
+  status Int @default(1)
+  user_id Int
+  project_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+}
+
