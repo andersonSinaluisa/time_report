@@ -10,9 +10,10 @@ import { DbService } from './shared/services/db/db.service';
 import { SharedModule } from './shared/shared.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ValidationPipe } from './shared/utils/validation.pipe';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
-  imports: [AuthModule, AdminModule, SharedModule],
+  imports: [AuthModule, AdminModule, SharedModule, CaslModule],
   controllers: [AppController],
   providers: [
     AppService,
