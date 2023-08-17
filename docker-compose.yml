@@ -11,14 +11,14 @@ services:
     volumes:
       - ./timereport_back:/app
     environment:
-      DATABASE_URL: mysql://root:root@mysql-db:3306/timereportdb
+      DATABASE_URL: mysql://root:root@mysql-db:3307/timereportdb
     networks:
       - app-network
 
   mysql-db:
     image: mysql:latest
     ports:
-      - '3306:3306'
+      - '3307:3306'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: timereportdb

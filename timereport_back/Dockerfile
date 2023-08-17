@@ -1,23 +1,22 @@
 # Utiliza una imagen base de Node.js
 FROM node:20.1.0
 
-# Establece el directorio de trabajo en la imagen
-WORKDIR /app
 
-# Copia el archivo package.json y package-lock.json para instalar dependencias
+# Set the working directory inside the container
+WORKDIR /app
+RUN npm install -g @nestjs/cli
+
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
-# Instala las dependencias
+# Install project dependencies
 RUN npm install
 
-# Copia los archivos de la aplicación al directorio de trabajo en la imagen
+# Copy the rest of the application code to the container
 COPY . .
 
-# Expone el puerto en el que la aplicación Nest.js estará escuchando
+# Expose the port that the Nest.js application will run on
 EXPOSE 3000
 
-# Establece variables de entorno para la conexión a la base de datos MySQL
-
-
-# Comando para iniciar la aplicación Nest.js
-CMD ["npm", "run", "start:prod"]
+# Run the Nest.js application
+CMD ["npm", "run", "start:dev"]
