@@ -1,0 +1,19 @@
+{
+    "jest.testExplorer": {
+        "testFramework": "jest-circus/runner",
+        "showCollapseButton": false,
+        "showSkipped": "no",
+        "showExpandButton": false,
+        "enableSnapshotUpdateMessages": true,
+        "useJestTextMateParsers": true,
+        "debuggerBreakOnStart": true,
+        "rootPath": "${workspaceFolder}",
+        //e2e
+        "config": "test/jest-e2e.json",
+        //disabled auto run
+        "enableAutoRun": false,
+        //disabled watch mode
+        "watchMode": false,
+        
+    },
+}

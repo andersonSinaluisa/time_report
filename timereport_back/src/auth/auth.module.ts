@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth/auth.controller';
 import { AuthService } from './services/auth.service';
-import { jwtConstants } from './constants';
+import { jwtConstants } from '../shared/utils/constants';
 import { SharedModule } from '../shared/shared.module';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -16,5 +16,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}

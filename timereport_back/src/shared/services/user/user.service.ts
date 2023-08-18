@@ -2,6 +2,8 @@
 import { Injectable  } from '@nestjs/common';
 import { DbService } from '../db/db.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
+import { UserRequest } from '../../../admin/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -9,7 +11,7 @@ export class UserService {
     constructor(private prisma: DbService, private jwtService: JwtService
     ) { }
 
-    async findOne(email: string): Promise<any> {
+    async findOne(email: string): Promise<User> {
         return await this.prisma.user.findUnique({
             where: {
                 email: email
@@ -17,10 +19,21 @@ export class UserService {
         })
     }
 
-    async Create(user: any): Promise<any> {
+    async Create(user: UserRequest): Promise<User> {
+
+        //validate if user already exists
+        const userExists = await this.findOne(user.email);
+        if (userExists) {
+            return Promise.reject("User already exists");
+        }
+
         return await this.prisma.user.create({
             data: user
         })
+    }
+
+    async GetAll(): Promise<User[]> {
+        return await this.prisma.user.findMany();
     }
 
 }
