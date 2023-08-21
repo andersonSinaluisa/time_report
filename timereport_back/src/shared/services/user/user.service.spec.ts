@@ -90,4 +90,36 @@ describe('UserService', () => {
         expect(err).rejects.toThrowError('User already exists');
       });
   });
+
+  it('GetAll() Success', () => {
+    service.GetAll().then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+      expect(res.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('GetAll() Fail', () => {
+    service.GetAll().then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+      expect(res.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('Update() Success', async () => {
+    const user = await service.findOne('test@admin.com');
+    const data = {
+      ...user,
+      first_name: 'test2',
+    };
+    service.Update(data, user.id).then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+      expect(res.first_name).toBe('test2');
+    });
+  });
+
+  it('Update() Fail',  () => {
+  });
 });

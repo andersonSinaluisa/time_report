@@ -36,4 +36,22 @@ export class UserService {
         return await this.prisma.user.findMany();
     }
 
+    async Update(user: UserRequest,id:number): Promise<User> {
+        return await this.prisma.user.update({
+            where: {
+                id: id
+            },
+            data: user
+        })
+    }
+
+    async Delete(id: number): Promise<User> {
+        return await this.prisma.user.delete({
+            where: {
+                id: id
+            }
+        })
+    }
+
+
 }
