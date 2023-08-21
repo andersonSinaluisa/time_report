@@ -1,14 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { Injectable  } from '@nestjs/common';
 import { DbService } from '../db/db.service';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { UserRequest } from '../../../admin/dto/user.dto';
 
 @Injectable()
 export class UserService {
 
-    constructor(private prisma: DbService, private jwtService: JwtService
+    constructor(private prisma: DbService
     ) { }
 
     async findOne(email: string): Promise<User> {
