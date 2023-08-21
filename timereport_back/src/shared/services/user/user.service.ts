@@ -12,19 +12,40 @@ export class UserService {
     ) { }
 
     async findOne(email: string): Promise<User> {
-        return await this.prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        })
+        try{
+            return await this.prisma.user.findUnique({
+                where: {
+                    email: email
+                }
+            }) 
+        }catch(e){
+            throw new Error("User not found");
+        }
+        
+    }
+
+    async Get(id: number): Promise<User> {
+        try{
+            return await this.prisma.user.findUnique({
+                where: {
+                    id: id
+                }
+            })
+        }catch(e){
+            throw new Error("User not found");
+        }
     }
 
     async Create(user: UserRequest): Promise<User> {
 
         //validate if user already exists
-        const userExists = await this.findOne(user.email);
+        const userExists = await this.prisma.user.findUnique({
+            where: {
+                email: user.email
+            }
+        })
         if (userExists) {
-            return Promise.reject("User already exists");
+            throw new Error("User already exists");
         }
 
         return await this.prisma.user.create({
@@ -37,20 +58,30 @@ export class UserService {
     }
 
     async Update(user: UserRequest,id:number): Promise<User> {
+        try{
+            
         return await this.prisma.user.update({
             where: {
                 id: id
             },
             data: user
         })
+        }catch(err){
+            throw new Error("User not found");
+        }
     }
 
     async Delete(id: number): Promise<User> {
-        return await this.prisma.user.delete({
-            where: {
-                id: id
-            }
-        })
+        try{
+            return await this.prisma.user.delete({
+                where: {
+                    id: id
+                }
+            })
+        }catch(e){
+            throw new Error("User not found");
+        }
+       
     }
 
 

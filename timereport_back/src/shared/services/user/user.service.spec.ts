@@ -3,9 +3,12 @@ import { UserService } from './user.service';
 import { DbService } from '../db/db.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../../utils/constants';
+import { UserFactory } from './user.factory';
+import { faker } from '@faker-js/faker/locale/af_ZA';
 
 describe('UserService', () => {
   let service: UserService;
+  const user = UserFactory();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -39,55 +42,25 @@ describe('UserService', () => {
   });
 
   it('Create() Success', () => {
-    service
-      .Create({
-        email: 'test@admin.com',
-        password: 'test',
-        first_name: 'test',
-        role: 'admin',
-        address: 'test',
-        avatar: 'test',
-        last_name: 'test',
-        city: 'test',
-        country: 'test',
-        identification: 'test',
-        phone: 'test',
-        state: 'test',
-        status: true,
-        zip_code: 'test',
-      })
-      .then((res) => {
-        expect(res).toBeDefined();
-        expect(res).not.toBeNull();
-        expect(res.email).toBe('test@admin.com');
-        expect(res.password).toBeDefined();
-        expect(res.password).not.toBeNull();
-      });
+    service.Create(user).then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+      expect(res.email).toBe(user.email);
+      expect(res.password).toBeDefined();
+      expect(res.password).not.toBeNull();
+    });
   });
 
   it('Create() Fail', () => {
     service
-      .Create({
-        email: 'test@admin.com',
-        password: 'test',
-        first_name: 'test',
-        role: 'admin',
-        address: 'test',
-        avatar: 'test',
-        last_name: 'test',
-        city: 'test',
-        country: 'test',
-        identification: 'test',
-        phone: 'test',
-        state: 'test',
-        status: true,
-        zip_code: 'test',
-      })
+      .Create(user)
       .then((res) => {
         expect(res).toBeNull();
       })
       .catch((err) => {
-        expect(err).rejects.toThrowError('User already exists');
+        expect(err).toBeDefined();
+        expect(err).not.toBeNull();
+        expect(err.message).toBe('User already exists');
       });
   });
 
@@ -108,18 +81,60 @@ describe('UserService', () => {
   });
 
   it('Update() Success', async () => {
-    const user = await service.findOne('test@admin.com');
+    const _user = await service.Create(UserFactory());
     const data = {
-      ...user,
-      first_name: 'test2',
+      ..._user,
+      first_name: 'test2 ',
     };
-    service.Update(data, user.id).then((res) => {
+    service.Update(data, _user.id).then((res) => {
       expect(res).toBeDefined();
       expect(res).not.toBeNull();
       expect(res.first_name).toBe('test2');
     });
   });
 
-  it('Update() Fail',  () => {
+  it('Update() Fail', () => {
+    service
+      .Update(
+        UserFactory(),
+        faker.helpers.rangeToNumber({
+          min: 100,
+          max: 1000,
+        }),
+      )
+      .then((res) => {
+        expect(res).toBeNull();
+      })
+      .catch((err) => {
+        expect(err).toBeDefined();
+        expect(err).not.toBeNull();
+        expect(err.message).toBe('User not found');
+      });
+  });
+
+  it('Delete() Success', async () => {
+    const user_ = await service.Create(UserFactory());
+    await service.Delete(user_.id).then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+    });
+  });
+
+  it('Delete() Fail', () => {
+    service
+      .Delete(
+        faker.helpers.rangeToNumber({
+          min: 100,
+          max: 1000,
+        }),
+      )
+      .then((res) => {
+        expect(res).toBeNull();
+      })
+      .catch((err) => {
+        expect(err).toBeDefined();
+        expect(err).not.toBeNull();
+        expect(err.message).toBe('User not found');
+      });
   });
 });

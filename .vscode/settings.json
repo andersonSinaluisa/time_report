@@ -1,7 +1,0 @@
-{
-    "jest.testExplorer": null,
-    //jest regex auto detect
-    "jest.pathToJest": "npm test -- --watchAll",
-    "jest.pathToConfig": "jest.config.js",
-    "jest.autoEnable": true,
-}
