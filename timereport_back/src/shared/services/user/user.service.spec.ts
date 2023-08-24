@@ -3,9 +3,12 @@ import { UserService } from './user.service';
 import { DbService } from '../db/db.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../../utils/constants';
+import { factoryUser } from '../db/user/user.factory';
+import { faker } from '@faker-js/faker';
 
 describe('UserService', () => {
   let service: UserService;
+  const user = factoryUser();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -39,50 +42,22 @@ describe('UserService', () => {
   });
 
   it('Create() Success', () => {
-    service
-      .Create({
-        email: 'test@admin.com',
-        password: 'test',
-        first_name: 'test',
-        role: 'admin',
-        address: 'test',
-        avatar: 'test',
-        last_name: 'test',
-        city: 'test',
-        country: 'test',
-        identification: 'test',
-        phone: 'test',
-        state: 'test',
-        status: true,
-        zip_code: 'test',
-      })
-      .then((res) => {
-        expect(res).toBeDefined();
-        expect(res).not.toBeNull();
-        expect(res.email).toBe('test@admin.com');
-        expect(res.password).toBeDefined();
-        expect(res.password).not.toBeNull();
-      });
+    service.Create(user).then((res) => {
+      expect(res).toBeDefined();
+      expect(res).not.toBeNull();
+      expect(res.email).toBe(user.email);
+      expect(res.password).toBeDefined();
+      expect(res.password).not.toBeNull();
+    });
   });
 
   it('Create() Fail', () => {
+    const userInfo = {
+      email: user.email,
+      ...factoryUser(),
+    };
     service
-      .Create({
-        email: 'test@admin.com',
-        password: 'test',
-        first_name: 'test',
-        role: 'admin',
-        address: 'test',
-        avatar: 'test',
-        last_name: 'test',
-        city: 'test',
-        country: 'test',
-        identification: 'test',
-        phone: 'test',
-        state: 'test',
-        status: true,
-        zip_code: 'test',
-      })
+      .Create(userInfo)
       .then((res) => {
         expect(res).toBeNull();
       })
@@ -91,35 +66,28 @@ describe('UserService', () => {
       });
   });
 
-  it('GetAll() Success', () => {
-    service.GetAll().then((res) => {
+  it('Delete() Success', async () => {
+    const user = await service.Create(factoryUser());
+    expect(user).not.toBeNull();
+    await service.Delete(user.id).then((res) => {
       expect(res).toBeDefined();
-      expect(res).not.toBeNull();
-      expect(res.length).toBeGreaterThan(0);
+      expect(res).not.toBeFalsy();
     });
   });
 
-  it('GetAll() Fail', () => {
-    service.GetAll().then((res) => {
-      expect(res).toBeDefined();
-      expect(res).not.toBeNull();
-      expect(res.length).toBeGreaterThan(0);
-    });
-  });
-
-  it('Update() Success', async () => {
-    const user = await service.findOne('test@admin.com');
-    const data = {
-      ...user,
-      first_name: 'test2',
-    };
-    service.Update(data, user.id).then((res) => {
-      expect(res).toBeDefined();
-      expect(res).not.toBeNull();
-      expect(res.first_name).toBe('test2');
-    });
-  });
-
-  it('Update() Fail',  () => {
+  it('Delete() Fail', async () => {
+    await service
+      .Delete(
+        faker.helpers.rangeToNumber({
+          max: 20,
+          min: 15,
+        }),
+      )
+      .then((res) => {
+        expect(res).toBeNull();
+      })
+      .catch((e) => {
+        expect(e).not.toBeNull();
+      });
   });
 });

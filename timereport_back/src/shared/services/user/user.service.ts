@@ -36,22 +36,30 @@ export class UserService {
         return await this.prisma.user.findMany();
     }
 
-    async Update(user: UserRequest,id:number): Promise<User> {
-        return await this.prisma.user.update({
-            where: {
-                id: id
-            },
-            data: user
-        })
+    async Delete(id:number):Promise<boolean> {
+
+        try{
+
+            this.prisma.user.delete({
+                where:{
+                    id: id
+                }
+            });
+            return true;
+        }catch(e){
+            throw new Error("User Not Found")
+        }
     }
 
-    async Delete(id: number): Promise<User> {
-        return await this.prisma.user.delete({
-            where: {
-                id: id
+
+    async Update(userData:UserRequest,id:number):Promise<User>{
+        return await this.prisma.user.update({
+            where:{
+                id:id
+            },
+            data:{
+                ...userData
             }
         })
     }
-
-
 }
