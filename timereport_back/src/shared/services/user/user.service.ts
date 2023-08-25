@@ -1,30 +1,50 @@
 /* eslint-disable prettier/prettier */
 import { Injectable  } from '@nestjs/common';
 import { DbService } from '../db/db.service';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { UserRequest } from '../../../admin/dto/user.dto';
 
 @Injectable()
 export class UserService {
 
-    constructor(private prisma: DbService, private jwtService: JwtService
+    constructor(private prisma: DbService
     ) { }
 
     async findOne(email: string): Promise<User> {
-        return await this.prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        })
+        try{
+            return await this.prisma.user.findUnique({
+                where: {
+                    email: email
+                }
+            }) 
+        }catch(e){
+            throw new Error("User not found");
+        }
+        
+    }
+
+    async Get(id: number): Promise<User> {
+        try{
+            return await this.prisma.user.findUnique({
+                where: {
+                    id: id
+                }
+            })
+        }catch(e){
+            throw new Error("User not found");
+        }
     }
 
     async Create(user: UserRequest): Promise<User> {
 
         //validate if user already exists
-        const userExists = await this.findOne(user.email);
+        const userExists = await this.prisma.user.findUnique({
+            where: {
+                email: user.email
+            }
+        })
         if (userExists) {
-            return Promise.reject("User already exists");
+            throw new Error("User already exists");
         }
 
         return await this.prisma.user.create({
