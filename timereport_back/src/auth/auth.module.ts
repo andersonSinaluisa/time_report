@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { jwtConstants } from '../shared/utils/constants';
 import { SharedModule } from '../shared/shared.module';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthGuard } from './services/auth.guard';
 
 @Module({
   controllers: [AuthController],
@@ -15,7 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   exports: [AuthService],
 })
 export class AuthModule {}

@@ -1,0 +1,84 @@
+@use "vuetify/lib/styles/tools/elevation" as elevation;
+@use "@configured-variables" as variables;
+
+.skin--default {
+  .layout-nav-type-vertical .layout-vertical-nav {
+    @include elevation.elevation(2);
+  }
+}
+
+.layout-nav-type-vertical {
+  // 👉 Layout Vertical nav
+  .layout-vertical-nav {
+    color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
+
+    .nav-header {
+      .app-logo {
+        h1 {
+          font-size: 22px;
+        }
+      }
+    }
+
+    // 👉 Nav group active
+    .nav-group.active {
+      > .nav-group-label {
+        color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
+        font-weight: 600;
+      }
+    }
+
+    // 👉 Vertical nav link
+    .nav-link {
+      > .router-link-exact-active {
+        background: linear-gradient(72.47deg, rgb(var(--v-theme-primary)) 22.16%, rgba(var(--v-theme-primary), 0.7) 76.47%) !important;
+      }
+    }
+
+    .nav-link .nav-item-icon,
+    .nav-group .nav-item-icon {
+      font-size: 1.375rem;
+      margin-inline-start: 0.2rem;
+    }
+
+    .nav-section-title .placeholder-icon {
+      margin-inline-start: 0.3rem;
+    }
+
+    // 👉 Nav item badge
+    .nav-item-badge {
+      line-height: 1rem;
+      margin-inline-end: 0.5rem;
+    }
+
+    // 👉 Nav group & Link
+    .nav-link,
+    .nav-group {
+      > :first-child {
+        block-size: 2.5rem;
+        margin-block-end: 0.25rem;
+      }
+    }
+  }
+}
+
+// 👉 Fix active nav link shadow cut
+/* stylelint-disable no-duplicate-selectors */
+.layout-nav-type-vertical .layout-vertical-nav .nav-link,
+.layout-nav-type-vertical .layout-vertical-nav .nav-group {
+  margin-block-start: -0.15rem;
+}
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-link > :first-child,
+.layout-nav-type-vertical .layout-vertical-nav .nav-group > :first-child {
+  margin-block-end: 0.4rem;
+}
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-section-title:not(:first-child) {
+  transform: translateY(-0.15rem);
+}
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-items > li:first-child {
+  margin-block-start: 0;
+}
+/* stylelint-enable */

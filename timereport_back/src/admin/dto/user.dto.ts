@@ -1,105 +1,131 @@
-import {
-  IsBoolean,
-  IsDate,
-  IsEmail,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsBoolean, IsDate, IsEmail, IsNumber, IsString} from 'class-validator';
 
 export class UserResponseDto {
-  @IsNumber()
-  id: number;
+	@ApiProperty()
+	@IsNumber()
+	id: number;
 
-  @IsEmail()
-  email: string;
+	@IsEmail()
+	@ApiProperty()
+	email: string;
 
-  @IsString()
-  first_name: string;
+	@IsString()
+	@ApiProperty()
+	first_name: string;
 
-  @IsString()
-  last_name: string;
+	@IsString()
+	@ApiProperty()
+	last_name: string;
 
-  @IsDate()
-  created_at: Date;
+	@IsDate()
+	@ApiProperty()
+	created_at: Date;
 
-  @IsDate()
-  updated_at: Date;
+	@IsDate()
+	@ApiProperty()
+	updated_at: Date;
 
-  @IsDate()
-  deleted_at: Date;
+	@IsDate()
+	@ApiProperty()
+	deleted_at: Date;
 
-  @IsString()
-  identification: string;
+	@IsString()
+	@ApiProperty()
+	identification: string;
 
-  @IsString()
-  phone: string;
+	@IsString()
+	@ApiProperty()
+	phone: string;
 
-  @IsString()
-  address: string;
+	@IsString()
+	@ApiProperty()
+	address: string;
 
-  @IsString()
-  city: string;
+	@IsString()
+	@ApiProperty()
+	city: string;
 
-  @IsString()
-  state: string;
+	@IsString()
+	@ApiProperty()
+	state: string;
 
-  @IsString()
-  country: string;
+	@IsString()
+	@ApiProperty()
+	country: string;
 
-  @IsString()
-  zip_code: string;
+	@IsString()
+	@ApiProperty()
+	zip_code: string;
 
-  @IsString()
-  role: string;
+	@IsString()
+	@ApiProperty()
+	role: string;
 
-  @IsBoolean()
-  status: boolean;
+	@IsBoolean()
+	@ApiProperty()
+	status: boolean;
 
-  @IsString()
-  avatar: string;
+	@IsString()
+	@ApiProperty()
+	avatar: string;
 }
 
 export class UserRequest {
-  @IsString()
-  @IsEmail()
-  email: string;
+	@IsString()
+	@IsEmail()
+	@ApiProperty()
+	email: string;
 
-  @IsString()
-  first_name: string;
+	@IsString()
+	@ApiProperty()
+	first_name: string;
 
-  @IsString()
-  last_name: string;
+	@IsString()
+	@ApiProperty()
+	last_name: string;
 
-  @IsString()
-  password: string;
+	@IsString()
+	@ApiProperty()
+	password: string;
 
-  @IsString()
-  identification: string;
+	@IsString()
+	@ApiProperty()
+	identification: string;
 
-  @IsString()
-  phone: string;
+	@IsString()
+	@ApiProperty()
+	phone: string;
 
-  @IsString()
-  address: string;
+	@IsString()
+	@ApiProperty()
+	address: string;
 
-  @IsString()
-  city: string;
+	@IsString()
+	@ApiProperty()
+	city: string;
 
-  @IsString()
-  state: string;
+	@IsString()
+	@ApiProperty()
+	state: string;
 
-  @IsString()
-  country: string;
+	@IsString()
+	@ApiProperty()
+	country: string;
 
-  @IsString()
-  zip_code: string;
+	@IsString()
+	@ApiProperty()
+	zip_code: string;
 
-  @IsString()
-  role: string;
+	@IsString()
+	@ApiProperty()
+	role: string;
 
-  @IsBoolean()
-  status: boolean;
+	@IsBoolean()
+	@ApiProperty()
+	status: boolean;
 
-  @IsString()
-  avatar: string;
+	@IsString()
+	@ApiProperty()
+	avatar: string;
 }

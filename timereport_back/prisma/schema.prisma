@@ -165,7 +165,7 @@ model Permissions{
   deleted_at DateTime?
   status Int @default(1)
   roles PermissionsOnRole[]
-    
+  menus Menu[]
 }
 
 model PermissionsOnRole{
@@ -202,7 +202,9 @@ model Menu{
   updated_at DateTime? @updatedAt
   deleted_at DateTime?
   status Int @default(1)
-  parent_id Int?  
+  parent_id Int?
+  permission_id Int? 
+  permission Permissions? @relation(fields: [permission_id], references: [id])
 }
 
 
